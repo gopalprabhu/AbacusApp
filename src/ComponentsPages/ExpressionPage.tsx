@@ -1,10 +1,5 @@
-import {
-  NavigationContainer,
-  NavigationProp,
-  useRoute,
-  RouteProp,
-} from '@react-navigation/native';
-import React, {Component, useState} from 'react';
+import {useRoute, RouteProp} from '@react-navigation/native';
+import React, {Component, useRef, useState} from 'react';
 import {StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 
@@ -22,13 +17,50 @@ const ExpressionPage = () => {
   const route = useRoute<ExpressionPageRouteProp>();
   const {complexity1, operation, complexity2} = route.params;
 
+  const expressionAndButtonRef = useRef<View>(null);
+
   const generateRandomNumber = (digits: number): number => {
     const min = digits === 1 ? 0 : Math.pow(10, digits - 1);
     const max = Math.pow(10, digits) - 1;
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
+  //Keep Track of Correct and Wrong Answers
+  const [correctCount, setCorrectCount] = useState(0);
+  const [wrongCount, setWrongCount] = useState(0);
 
-  const handlePressOne = () => {};
+  const handlePressOne = (number: number) => {
+    if (number == expressionResult) {
+      if (expressionAndButtonRef.current) {
+        expressionAndButtonRef.current.setNativeProps({
+          style: {backgroundColor: '#34a832'},
+        });
+      }
+      setTimeout(() => {
+        if (expressionAndButtonRef.current) {
+          expressionAndButtonRef.current.setNativeProps({
+            style: {backgroundColor: '#bf65f0'},
+          });
+        }
+        setCorrectCount(correctCount + 1);
+        console.log('Correct Option, Correct till now:', correctCount + 1);
+      }, 100);
+    } else {
+      if (expressionAndButtonRef.current) {
+        expressionAndButtonRef.current.setNativeProps({
+          style: {backgroundColor: 'red'},
+        });
+      }
+      setTimeout(() => {
+        if (expressionAndButtonRef.current) {
+          expressionAndButtonRef.current.setNativeProps({
+            style: {backgroundColor: '#bf65f0'},
+          });
+        }
+        setWrongCount(wrongCount + 1);
+        console.log('Wrong Option, Wrong till now:', wrongCount + 1);
+      }, 100);
+    }
+  };
 
   const getExpression = (
     complexity1: string | null,
@@ -95,39 +127,93 @@ const ExpressionPage = () => {
 
     // Create fakeAbc by adding the offset to abc
     var fakeResult = expressionResult + offset;
+    if (fakeResult == expressionResult) {
+      fakeResult = fakeResult + 1;
+    }
 
     return fakeResult;
   }
 
   var fakeExpressionResult = generateFakeResult(expressionResult);
+  var renderTouchable1 = Math.random() < 0.5;
 
   return (
     <View style={styles.container}>
-      <View style={[styles.container, styles.expressionAndButton]}>
+      <View
+        ref={expressionAndButtonRef}
+        style={[styles.container, styles.expressionAndButton]}>
         <Text style={styles.expressionText}>{expression}</Text>
         <View style={styles.buttonConatiner}>
-          <View style={styles.buttonConatinerEach}>
-            <TouchableWithoutFeedback onPress={handlePressOne}>
-              <Text
-                style={[
-                  styles.buttonTextEach,
-                  {fontSize: getDynamicFontSize(String(expressionResult))},
-                ]}>
-                {expressionResult}
-              </Text>
-            </TouchableWithoutFeedback>
-          </View>
-          <View style={styles.buttonConatinerEach}>
-            <TouchableWithoutFeedback>
-              <Text
-                style={[
-                  styles.buttonTextEach,
-                  {fontSize: getDynamicFontSize(String(expressionResult))},
-                ]}>
-                {fakeExpressionResult}
-              </Text>
-            </TouchableWithoutFeedback>
-          </View>
+          {renderTouchable1 ? (
+            <View style={styles.buttonContainerEach}>
+              <TouchableWithoutFeedback
+                onPress={() => handlePressOne(expressionResult)}>
+                <View style={styles.buttonContainerTextPadding}>
+                  <Text
+                    style={[
+                      styles.buttonTextEach,
+                      {fontSize: getDynamicFontSize(String(expressionResult))},
+                    ]}>
+                    {expressionResult}
+                  </Text>
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+          ) : (
+            <View style={styles.buttonContainerEach}>
+              <TouchableWithoutFeedback
+                onPress={() => handlePressOne(fakeExpressionResult)}>
+                <View style={styles.buttonContainerTextPadding}>
+                  <Text
+                    style={[
+                      styles.buttonTextEach,
+                      {
+                        fontSize: getDynamicFontSize(
+                          String(fakeExpressionResult),
+                        ),
+                      },
+                    ]}>
+                    {fakeExpressionResult}
+                  </Text>
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+          )}
+          {!renderTouchable1 ? (
+            <View style={styles.buttonContainerEach}>
+              <TouchableWithoutFeedback
+                onPress={() => handlePressOne(expressionResult)}>
+                <View style={styles.buttonContainerTextPadding}>
+                  <Text
+                    style={[
+                      styles.buttonTextEach,
+                      {fontSize: getDynamicFontSize(String(expressionResult))},
+                    ]}>
+                    {expressionResult}
+                  </Text>
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+          ) : (
+            <View style={styles.buttonContainerEach}>
+              <TouchableWithoutFeedback
+                onPress={() => handlePressOne(fakeExpressionResult)}>
+                <View style={styles.buttonContainerTextPadding}>
+                  <Text
+                    style={[
+                      styles.buttonTextEach,
+                      {
+                        fontSize: getDynamicFontSize(
+                          String(fakeExpressionResult),
+                        ),
+                      },
+                    ]}>
+                    {fakeExpressionResult}
+                  </Text>
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
+          )}
         </View>
       </View>
     </View>
@@ -157,18 +243,22 @@ const styles = StyleSheet.create({
   buttonConatiner: {
     flexDirection: 'row',
   },
-  buttonConatinerEach: {
+  buttonContainerEach: {
     margin: 8,
     marginBottom: 15,
     backgroundColor: '#500778',
-    paddingHorizontal: 35,
-    paddingVertical: 55,
+    //paddingVertical: 55,
     borderRadius: 8,
     width: '44%',
     alignItems: 'center',
   },
   buttonTextEach: {
     color: '#f6edfa',
+  },
+  buttonContainerTextPadding: {
+    paddingVertical: 55,
+    alignItems: 'center',
+    paddingHorizontal: 35,
   },
 });
 

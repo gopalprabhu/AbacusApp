@@ -1,16 +1,40 @@
-import {NavigationContainer, NavigationProp} from '@react-navigation/native';
-import React, {Component, useState} from 'react';
-import {StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import StartButton from '../Components/StartButton';
+import LottieView from 'lottie-react-native';
+import {useEffect, useRef, useState} from 'react';
 
-type StartPageProps = {
-  navigation: NavigationProp<any>;
-};
+function StartPage() {
+  const animationRef = useRef<LottieView>(null);
+  const [showAnimation, setShowAnimation] = useState(true);
 
-function StartPage({navigation}: StartPageProps) {
+  useEffect(() => {
+    animationRef.current?.play(0, 100);
+  }, []);
+
+  useEffect(() => {
+    if (showAnimation) {
+      // Set a timer to hide the animation after it has played (e.g., 3 seconds)
+      const timer = setTimeout(() => {
+        setShowAnimation(false);
+      }, 2500); // Duration of the animation in milliseconds
+
+      // Clean up the timer
+      return () => clearTimeout(timer);
+    }
+  }, [showAnimation]);
   return (
     <View style={styles.container}>
-      <StartButton screenName={'Complexity_Page'} />
+      {showAnimation ? (
+        <LottieView
+          source={require('./../assets/Animation/beedsAbacus.json')}
+          autoPlay
+          loop={false}
+          style={styles.lottie}
+          ref={animationRef}
+        />
+      ) : (
+        <StartButton screenName={'Complexity_Page'} />
+      )}
     </View>
   );
 }
@@ -36,6 +60,14 @@ const styles = StyleSheet.create({
     fontSize: 23,
     color: '#fff',
     fontFamily: 'PressStart2P-Regular',
+  },
+  lottie: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+    zIndex: 1000,
   },
 });
 

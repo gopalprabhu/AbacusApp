@@ -1,10 +1,5 @@
-import {
-  NavigationContainer,
-  NavigationProp,
-  useNavigation,
-  useRoute,
-} from '@react-navigation/native';
-import React, {Component, useState} from 'react';
+import {NavigationProp, useNavigation} from '@react-navigation/native';
+import React, {useState} from 'react';
 import {StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
 
 type StartButtonProps = {
@@ -31,6 +26,7 @@ function StartButton({screenName, navigationParams}: StartButtonProps) {
       navigation.navigate(screenName);
     }
   };
+
   return (
     <View style={[styles.button, isPressed && styles.buttonPressed]}>
       <TouchableWithoutFeedback

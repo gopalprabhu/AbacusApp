@@ -1,7 +1,8 @@
 import {useRoute, RouteProp} from '@react-navigation/native';
-import React, {Component, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import type {StackNavigationProp} from '@react-navigation/stack';
 
 type RootStackParamList = {
   ExpressionPage: {
@@ -9,14 +10,21 @@ type RootStackParamList = {
     operation: string | null;
     complexity2: string | null;
   };
+  HighScore_Page: {correctCount: number};
 };
 
 type ExpressionPageRouteProp = RouteProp<RootStackParamList, 'ExpressionPage'>;
-
+type HighScorePageNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  'HighScore_Page'
+>;
+var counter = 0;
 const ExpressionPage = () => {
+  const navigation = useNavigation<HighScorePageNavigationProp>();
   const route = useRoute<ExpressionPageRouteProp>();
   const {complexity1, operation, complexity2} = route.params;
 
+  //for no re-render - update bgColor
   const expressionAndButtonRef = useRef<View>(null);
 
   const generateRandomNumber = (digits: number): number => {
@@ -41,8 +49,17 @@ const ExpressionPage = () => {
             style: {backgroundColor: '#bf65f0'},
           });
         }
-        setCorrectCount(correctCount + 1);
+        const newCorrectCount = correctCount + 1;
+        setCorrectCount(newCorrectCount);
+        counter = counter + 1;
         console.log('Correct Option, Correct till now:', correctCount + 1);
+        var finalValue = correctCount + 1;
+        if (counter == 5) {
+          counter = 0;
+          navigation.navigate('HighScore_Page', {
+            correctCount: newCorrectCount,
+          });
+        }
       }, 100);
     } else {
       if (expressionAndButtonRef.current) {
@@ -57,7 +74,12 @@ const ExpressionPage = () => {
           });
         }
         setWrongCount(wrongCount + 1);
+        counter = counter + 1;
         console.log('Wrong Option, Wrong till now:', wrongCount + 1);
+        if (counter == 5) {
+          counter = 0;
+          navigation.navigate('HighScore_Page', {correctCount});
+        }
       }, 100);
     }
   };
@@ -117,7 +139,7 @@ const ExpressionPage = () => {
 
   function generateFakeResult(expressionResult: number) {
     // Calculate the number of digits in abc
-    let numDigits = Math.floor(Math.log10(expressionResult)) + 1;
+    let numDigits = Math.floor(Math.log10(Math.abs(expressionResult))) + 1;
 
     // Determine the range based on the number of digits
     let range = Math.pow(10, numDigits - 1);

@@ -4,12 +4,17 @@ import {StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
 
 type StartButtonProps = {
   screenName: string;
+  buttonTitle: string;
   navigationParams?: {
     [key: string]: any;
   };
 };
 
-function StartButton({screenName, navigationParams}: StartButtonProps) {
+function StartButton({
+  buttonTitle,
+  screenName,
+  navigationParams,
+}: StartButtonProps) {
   const navigation = useNavigation<NavigationProp>();
 
   const [isPressed, setIsPressed] = useState(false);
@@ -32,7 +37,7 @@ function StartButton({screenName, navigationParams}: StartButtonProps) {
       <TouchableWithoutFeedback
         onPressIn={handlePressIn}
         onPressOut={handlePressOut}>
-        <Text style={styles.buttonText}>Start</Text>
+        <Text style={styles.buttonText}>{buttonTitle}</Text>
       </TouchableWithoutFeedback>
     </View>
   );
@@ -42,7 +47,7 @@ const styles = StyleSheet.create({
   button: {
     paddingHorizontal: 65,
     paddingVertical: 25,
-    backgroundColor: '#975fff',
+    backgroundColor: '#b806af',
     borderRadius: 40,
     elevation: 8,
   },

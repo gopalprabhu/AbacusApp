@@ -1,4 +1,4 @@
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, View, ImageBackground} from 'react-native';
 import StartButton from '../Components/StartButton';
 import LottieView from 'lottie-react-native';
 import {useEffect, useRef, useState} from 'react';
@@ -23,7 +23,9 @@ function StartPage() {
     }
   }, [showAnimation]);
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      style={styles.container}
+      source={require('./../assets/Images/bkg.jpg')}>
       {showAnimation ? (
         <LottieView
           source={require('./../assets/Animation/beedsAbacus.json')}
@@ -33,9 +35,9 @@ function StartPage() {
           ref={animationRef}
         />
       ) : (
-        <StartButton screenName={'Complexity_Page'} />
+        <StartButton screenName={'Complexity_Page'} buttonTitle="Start" />
       )}
-    </View>
+    </ImageBackground>
   );
 }
 

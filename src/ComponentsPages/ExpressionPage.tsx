@@ -1,8 +1,9 @@
 import {useRoute, RouteProp} from '@react-navigation/native';
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import type {StackNavigationProp} from '@react-navigation/stack';
+import Timer from '../Components/Timer';
 
 type RootStackParamList = {
   ExpressionPage: {
@@ -10,7 +11,7 @@ type RootStackParamList = {
     operation: string | null;
     complexity2: string | null;
   };
-  HighScore_Page: {correctCount: number};
+  HighScore_Page: {correctCount: number; timeElapsed: number};
 };
 
 type ExpressionPageRouteProp = RouteProp<RootStackParamList, 'ExpressionPage'>;
@@ -58,6 +59,7 @@ const ExpressionPage = () => {
           counter = 0;
           navigation.navigate('HighScore_Page', {
             correctCount: newCorrectCount,
+            timeElapsed: elapsedTimeRef.current,
           });
         }
       }, 100);
@@ -78,11 +80,40 @@ const ExpressionPage = () => {
         console.log('Wrong Option, Wrong till now:', wrongCount + 1);
         if (counter == 5) {
           counter = 0;
-          navigation.navigate('HighScore_Page', {correctCount});
+          navigation.navigate('HighScore_Page', {
+            correctCount,
+            timeElapsed: elapsedTimeRef.current,
+          });
         }
       }, 100);
     }
   };
+
+  //Timer
+
+  const elapsedTimeRef = useRef(0);
+
+  // const timerRef = useRef(0); // 30 seconds countdown
+  // const timerTextRef = useRef<Text>(null);
+
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     if (timerRef.current > 0) {
+  //       timerRef.current += 1;
+  //       if (timerTextRef.current) {
+  //         timerTextRef.current.setNativeProps({
+  //           text: `Time left: ${timerRef.current} seconds`,
+  //         });
+  //       }
+  //     } else {
+  //       // Time's up, navigate to HighScore_Page
+  //       clearInterval(intervalId);
+  //       counter = 0;
+  //       navigation.navigate('HighScore_Page', {correctCount});
+  //     }
+  //   }, 1000);
+  //   return () => clearInterval(intervalId);
+  // }, [correctCount, navigation]);
 
   const getExpression = (
     complexity1: string | null,
@@ -115,7 +146,7 @@ const ExpressionPage = () => {
       case '*':
         return num1 * num2;
       case '/':
-        return num1 / num2;
+        return parseFloat((num1 / num2).toFixed(3));
       default:
         return NaN;
     }
@@ -153,7 +184,7 @@ const ExpressionPage = () => {
       fakeResult = fakeResult + 1;
     }
 
-    return fakeResult;
+    return parseFloat(fakeResult.toFixed(3));
   }
 
   var fakeExpressionResult = generateFakeResult(expressionResult);
@@ -161,6 +192,11 @@ const ExpressionPage = () => {
 
   return (
     <View style={styles.container}>
+      <Timer
+        onUpdate={time => {
+          elapsedTimeRef.current = time;
+        }}
+      />
       <View
         ref={expressionAndButtonRef}
         style={[styles.container, styles.expressionAndButton]}>
@@ -281,6 +317,12 @@ const styles = StyleSheet.create({
     paddingVertical: 55,
     alignItems: 'center',
     paddingHorizontal: 35,
+  },
+  timerText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#ff0000',
+    margin: 10,
   },
 });
 

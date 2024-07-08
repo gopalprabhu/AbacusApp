@@ -6,6 +6,7 @@ import {
   Text,
   TouchableWithoutFeedback,
   View,
+  ImageBackground,
 } from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import StartButton from '../Components/StartButton';
@@ -58,7 +59,9 @@ const ComplexityPage = ({navigation}: StartPageProps) => {
   }
 
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      style={styles.container}
+      source={require('./../assets/Images/bkg.jpg')}>
       <View>
         <Text style={styles.complexityTitle}>Select Complexity</Text>
       </View>
@@ -75,6 +78,7 @@ const ComplexityPage = ({navigation}: StartPageProps) => {
           maxHeight={300}
           labelField="label"
           valueField="value"
+          iconColor="#fff"
           placeholder="Digits"
           searchPlaceholder="Search..."
           value={complexity1}
@@ -94,6 +98,7 @@ const ComplexityPage = ({navigation}: StartPageProps) => {
           //search
           maxHeight={300}
           labelField="label"
+          iconColor="#fff"
           valueField="value"
           placeholder=" +"
           searchPlaceholder="Search..."
@@ -117,6 +122,7 @@ const ComplexityPage = ({navigation}: StartPageProps) => {
           valueField="value"
           placeholder="Digits"
           searchPlaceholder="Search..."
+          iconColor="#fff"
           value={complexity2}
           onChange={item => {
             setComplexity2(item.value);
@@ -128,10 +134,11 @@ const ComplexityPage = ({navigation}: StartPageProps) => {
           <StartButton
             screenName="Expression_Page"
             navigationParams={{complexity1, operation, complexity2}}
+            buttonTitle="Start"
           />
         </View>
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 
@@ -142,10 +149,10 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    margin: 10,
   },
   complexityTitle: {
     fontSize: 30,
+    color: '#fff',
   },
   options: {
     flexDirection: 'row',
@@ -154,10 +161,12 @@ const styles = StyleSheet.create({
   dropdown: {
     margin: 16,
     height: 50,
-    backgroundColor: '#fcdf8d',
+    backgroundColor: '#ff00f2',
     width: 100,
     padding: 10,
     borderRadius: 5,
+    elevation: 25,
+    color: '#fff',
   },
   dropdownOperation: {
     width: 70,
@@ -173,7 +182,7 @@ const styles = StyleSheet.create({
   placeholderStyle: {
     fontSize: 18,
     fontFamily: 'Roboto',
-    color: '#3d3c3a',
+    color: '#fff',
   },
   selectedTextStyle: {
     fontSize: 18,

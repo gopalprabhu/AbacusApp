@@ -101,9 +101,9 @@ function HighScorePage() {
           <View style={styles.currentScoreContainer}>
             <Text style={styles.currentScore}>Score: {correctCount}</Text>
           </View>
-          <Text style={[styles.currentScore, styles.time]}>
+          {/* <Text style={[styles.currentScore, styles.time]}>
             Time: {timeElapsed} Seconds
-          </Text>
+          </Text> */}
         </View>
       </View>
       <View style={styles.goHomeButton}>
@@ -131,9 +131,11 @@ const styles = StyleSheet.create({
   },
   currentScore: {
     fontSize: 34,
+    color: '#000',
   },
   highScore: {
     fontSize: 34,
+    color: '#000',
   },
   currentScoreContainer: {
     flexDirection: 'column',

@@ -10,6 +10,7 @@ import {
 import {useNavigation} from '@react-navigation/native';
 import type {StackNavigationProp} from '@react-navigation/stack';
 import Timer from '../Components/Timer';
+import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
 
 type RootStackParamList = {
   ExpressionPage: {
@@ -58,16 +59,16 @@ const ExpressionPage = () => {
         }
         const newCorrectCount = correctCount + 1;
         setCorrectCount(newCorrectCount);
-        counter = counter + 1;
+
         console.log('Correct Option, Correct till now:', correctCount + 1);
-        var finalValue = correctCount + 1;
-        if (counter == 20) {
-          counter = 1;
-          navigation.navigate('HighScore_Page', {
-            correctCount: newCorrectCount,
-            timeElapsed: elapsedTimeRef.current,
-          });
-        }
+        // var finalValue = correctCount + 1;
+        // if (counter == 20) {
+        //   counter = 1;
+        //   navigation.navigate('HighScore_Page', {
+        //     correctCount: newCorrectCount,
+        //     timeElapsed: elapsedTimeRef.current,
+        //   });
+        // }
       }, 100);
     } else {
       if (expressionAndButtonRef.current) {
@@ -82,15 +83,15 @@ const ExpressionPage = () => {
           });
         }
         setWrongCount(wrongCount + 1);
-        counter = counter + 1;
+        //counter = counter + 1;
         console.log('Wrong Option, Wrong till now:', wrongCount + 1);
-        if (counter == 20) {
-          counter = 1;
-          navigation.navigate('HighScore_Page', {
-            correctCount,
-            timeElapsed: elapsedTimeRef.current,
-          });
-        }
+        // if (counter == 20) {
+        //   counter = 1;
+        //   navigation.navigate('HighScore_Page', {
+        //     correctCount,
+        //     timeElapsed: elapsedTimeRef.current,
+        //   });
+        // }
       }, 100);
     }
   };
@@ -196,18 +197,26 @@ const ExpressionPage = () => {
   var fakeExpressionResult = generateFakeResult(expressionResult);
   var renderTouchable1 = Math.random() < 0.5;
 
+  const timerComplete = () => {
+    navigation.navigate('HighScore_Page', {
+      correctCount,
+      timeElapsed: elapsedTimeRef.current,
+    });
+  };
+
   return (
     <ImageBackground
       style={styles.container}
       source={require('./../assets/Images/bkg.jpg')}>
-      <Timer
-        onUpdate={time => {
-          elapsedTimeRef.current = time;
-        }}
-      />
-      <View>
-        <Text style={styles.counter}>{counter}/20</Text>
-      </View>
+      <CountdownCircleTimer
+        isPlaying
+        duration={10}
+        size={80}
+        onComplete={timerComplete}
+        colors={['#004777', '#F7B801', '#A30000', '#A30000']}
+        colorsTime={[7, 5, 2, 0]}>
+        {({remainingTime}) => <Text>{remainingTime}</Text>}
+      </CountdownCircleTimer>
       <View
         ref={expressionAndButtonRef}
         style={[styles.container, styles.expressionAndButton]}>

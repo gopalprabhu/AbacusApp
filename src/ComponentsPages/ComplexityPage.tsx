@@ -78,7 +78,7 @@ const ComplexityPage = ({navigation}: StartPageProps) => {
           maxHeight={300}
           labelField="label"
           valueField="value"
-          iconColor="#fff"
+          iconColor="#000"
           placeholder="Digits"
           searchPlaceholder="Search..."
           value={complexity1}
@@ -98,7 +98,7 @@ const ComplexityPage = ({navigation}: StartPageProps) => {
           //search
           maxHeight={300}
           labelField="label"
-          iconColor="#fff"
+          iconColor="#000"
           valueField="value"
           placeholder=" +"
           searchPlaceholder="Search..."
@@ -122,7 +122,7 @@ const ComplexityPage = ({navigation}: StartPageProps) => {
           valueField="value"
           placeholder="Digits"
           searchPlaceholder="Search..."
-          iconColor="#fff"
+          iconColor="#000"
           value={complexity2}
           onChange={item => {
             setComplexity2(item.value);
@@ -161,7 +161,8 @@ const styles = StyleSheet.create({
   dropdown: {
     margin: 16,
     height: 50,
-    backgroundColor: '#ff00f2',
+    backgroundColor: '#fff',
+    opacity: 0.65,
     width: 100,
     padding: 10,
     borderRadius: 5,
@@ -172,9 +173,11 @@ const styles = StyleSheet.create({
     width: 70,
   },
   itemContainerStyle: {
-    backgroundColor: '#e1f5dc',
+    backgroundColor: '#fff',
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
+    opacity: 0.8,
+    justifyContent: 'center',
   },
   icon: {
     marginRight: 5,
@@ -182,15 +185,17 @@ const styles = StyleSheet.create({
   placeholderStyle: {
     fontSize: 18,
     fontFamily: 'Roboto',
-    color: '#fff',
+    color: '#000',
   },
   selectedTextStyle: {
     fontSize: 18,
-    color: '#3d3c3a',
+    color: '#000',
+    opacity: 1,
   },
   iconStyle: {
     width: 20,
     height: 20,
+    color: '#000',
   },
   inputSearchStyle: {
     height: 40,

@@ -1,6 +1,12 @@
 import {useRoute, RouteProp} from '@react-navigation/native';
 import React, {useEffect, useRef, useState} from 'react';
-import {StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
+import {
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import type {StackNavigationProp} from '@react-navigation/stack';
 import Timer from '../Components/Timer';
@@ -19,7 +25,7 @@ type HighScorePageNavigationProp = StackNavigationProp<
   RootStackParamList,
   'HighScore_Page'
 >;
-var counter = 0;
+var counter = 1;
 const ExpressionPage = () => {
   const navigation = useNavigation<HighScorePageNavigationProp>();
   const route = useRoute<ExpressionPageRouteProp>();
@@ -55,8 +61,8 @@ const ExpressionPage = () => {
         counter = counter + 1;
         console.log('Correct Option, Correct till now:', correctCount + 1);
         var finalValue = correctCount + 1;
-        if (counter == 5) {
-          counter = 0;
+        if (counter == 20) {
+          counter = 1;
           navigation.navigate('HighScore_Page', {
             correctCount: newCorrectCount,
             timeElapsed: elapsedTimeRef.current,
@@ -78,8 +84,8 @@ const ExpressionPage = () => {
         setWrongCount(wrongCount + 1);
         counter = counter + 1;
         console.log('Wrong Option, Wrong till now:', wrongCount + 1);
-        if (counter == 5) {
-          counter = 0;
+        if (counter == 20) {
+          counter = 1;
           navigation.navigate('HighScore_Page', {
             correctCount,
             timeElapsed: elapsedTimeRef.current,
@@ -191,12 +197,17 @@ const ExpressionPage = () => {
   var renderTouchable1 = Math.random() < 0.5;
 
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      style={styles.container}
+      source={require('./../assets/Images/bkg.jpg')}>
       <Timer
         onUpdate={time => {
           elapsedTimeRef.current = time;
         }}
       />
+      <View>
+        <Text style={styles.counter}>{counter}/20</Text>
+      </View>
       <View
         ref={expressionAndButtonRef}
         style={[styles.container, styles.expressionAndButton]}>
@@ -274,7 +285,7 @@ const ExpressionPage = () => {
           )}
         </View>
       </View>
-    </View>
+    </ImageBackground>
   );
 };
 
@@ -323,6 +334,10 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#ff0000',
     margin: 10,
+  },
+  counter: {
+    color: '#fff',
+    fontSize: 23,
   },
 });
 

@@ -1,4 +1,4 @@
-import {StyleSheet, View, Text, Button} from 'react-native';
+import {StyleSheet, View, Text, Button, ImageBackground} from 'react-native';
 import StartButton from '../Components/StartButton';
 import LottieView from 'lottie-react-native';
 import {useEffect, useRef, useState} from 'react';
@@ -78,7 +78,9 @@ function HighScorePage() {
     }
   };
   return (
-    <View style={styles.container}>
+    <ImageBackground
+      style={styles.container}
+      source={require('./../assets/Images/bkg.jpg')}>
       {showAnimation ? (
         <LottieView
           source={require('./../assets/Animation/confettiBurst.json')}
@@ -95,18 +97,20 @@ function HighScorePage() {
           <Text style={styles.highScore}>High Score</Text>
           <Text style={styles.highScore}>{highScore}</Text>
         </View>
-        <View style={styles.currentScoreContainer}>
-          <Text style={styles.currentScore}>Score: {correctCount}</Text>
+        <View>
+          <View style={styles.currentScoreContainer}>
+            <Text style={styles.currentScore}>Score: {correctCount}</Text>
+          </View>
+          <Text style={[styles.currentScore, styles.time]}>
+            Time: {timeElapsed} Seconds
+          </Text>
         </View>
-        <Text style={[styles.currentScore, styles.time]}>
-          Time: {timeElapsed} Seconds
-        </Text>
       </View>
       <View style={styles.goHomeButton}>
-        <StartButton screenName="Start_Page" buttonTitle="Go Home" />
+        <StartButton screenName="Start_Page" buttonTitle="Home" />
       </View>
       {/* <Button title="Reset High Score" onPress={resetHighScore} /> */}
-    </View>
+    </ImageBackground>
   );
 }
 
@@ -129,7 +133,7 @@ const styles = StyleSheet.create({
     fontSize: 34,
   },
   highScore: {
-    fontSize: 44,
+    fontSize: 34,
   },
   currentScoreContainer: {
     flexDirection: 'column',
@@ -144,6 +148,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 25,
   },
   scoreContainer: {
     flex: 1,

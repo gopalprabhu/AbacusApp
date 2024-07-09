@@ -1,5 +1,5 @@
 import {useRoute, RouteProp} from '@react-navigation/native';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {
   ImageBackground,
   StyleSheet,
@@ -9,7 +9,6 @@ import {
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import type {StackNavigationProp} from '@react-navigation/stack';
-import Timer from '../Components/Timer';
 import {CountdownCircleTimer} from 'react-native-countdown-circle-timer';
 
 type RootStackParamList = {
@@ -26,7 +25,6 @@ type HighScorePageNavigationProp = StackNavigationProp<
   RootStackParamList,
   'HighScore_Page'
 >;
-var counter = 1;
 const ExpressionPage = () => {
   const navigation = useNavigation<HighScorePageNavigationProp>();
   const route = useRoute<ExpressionPageRouteProp>();
@@ -61,14 +59,6 @@ const ExpressionPage = () => {
         setCorrectCount(newCorrectCount);
 
         console.log('Correct Option, Correct till now:', correctCount + 1);
-        // var finalValue = correctCount + 1;
-        // if (counter == 20) {
-        //   counter = 1;
-        //   navigation.navigate('HighScore_Page', {
-        //     correctCount: newCorrectCount,
-        //     timeElapsed: elapsedTimeRef.current,
-        //   });
-        // }
       }, 100);
     } else {
       if (expressionAndButtonRef.current) {
@@ -83,15 +73,7 @@ const ExpressionPage = () => {
           });
         }
         setWrongCount(wrongCount + 1);
-        //counter = counter + 1;
         console.log('Wrong Option, Wrong till now:', wrongCount + 1);
-        // if (counter == 20) {
-        //   counter = 1;
-        //   navigation.navigate('HighScore_Page', {
-        //     correctCount,
-        //     timeElapsed: elapsedTimeRef.current,
-        //   });
-        // }
       }, 100);
     }
   };
@@ -99,28 +81,6 @@ const ExpressionPage = () => {
   //Timer
 
   const elapsedTimeRef = useRef(0);
-
-  // const timerRef = useRef(0); // 30 seconds countdown
-  // const timerTextRef = useRef<Text>(null);
-
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     if (timerRef.current > 0) {
-  //       timerRef.current += 1;
-  //       if (timerTextRef.current) {
-  //         timerTextRef.current.setNativeProps({
-  //           text: `Time left: ${timerRef.current} seconds`,
-  //         });
-  //       }
-  //     } else {
-  //       // Time's up, navigate to HighScore_Page
-  //       clearInterval(intervalId);
-  //       counter = 0;
-  //       navigation.navigate('HighScore_Page', {correctCount});
-  //     }
-  //   }, 1000);
-  //   return () => clearInterval(intervalId);
-  // }, [correctCount, navigation]);
 
   const getExpression = (
     complexity1: string | null,

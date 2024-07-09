@@ -1,13 +1,6 @@
 import {NavigationProp} from '@react-navigation/native';
 import React, {useState} from 'react';
-import {
-  Button,
-  StyleSheet,
-  Text,
-  TouchableWithoutFeedback,
-  View,
-  ImageBackground,
-} from 'react-native';
+import {StyleSheet, Text, View, ImageBackground} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import StartButton from '../Components/StartButton';
 
@@ -16,11 +9,6 @@ type StartPageProps = {
 };
 
 const ComplexityPage = ({navigation}: StartPageProps) => {
-  const [isPressed, setIsPressed] = useState(false);
-  const handlePress = () => {
-    console.log('dropdown pressed');
-  };
-
   type DropdownItem = {
     label: string;
     value: string;

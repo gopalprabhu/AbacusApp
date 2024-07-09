@@ -16,7 +16,7 @@ function StartPage() {
       // Set a timer to hide the animation after it has played (e.g., 3 seconds)
       const timer = setTimeout(() => {
         setShowAnimation(false);
-      }, 2500); // Duration of the animation in milliseconds
+      }, 2500);
 
       // Clean up the timer
       return () => clearTimeout(timer);

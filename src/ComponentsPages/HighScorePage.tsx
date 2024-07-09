@@ -62,9 +62,9 @@ function HighScorePage() {
       // Set a timer to hide the animation after it has played (e.g., 3 seconds)
       const timer = setTimeout(() => {
         setShowAnimation(false);
-      }, 2500); // Duration of the animation in milliseconds
+      }, 2500);
 
-      // Clean up the timer
+      // Cleanup the timer
       return () => clearTimeout(timer);
     }
   }, [showAnimation]);
@@ -101,9 +101,6 @@ function HighScorePage() {
           <View style={styles.currentScoreContainer}>
             <Text style={styles.currentScore}>Score: {correctCount}</Text>
           </View>
-          {/* <Text style={[styles.currentScore, styles.time]}>
-            Time: {timeElapsed} Seconds
-          </Text> */}
         </View>
       </View>
       <View style={styles.goHomeButton}>

@@ -175,7 +175,9 @@ const ExpressionPage = () => {
         onComplete={timerComplete}
         colors={['#004777', '#F7B801', '#A30000', '#A30000']}
         colorsTime={[7, 5, 2, 0]}>
-        {({remainingTime}) => <Text>{remainingTime}</Text>}
+        {({remainingTime}) => (
+          <Text style={styles.timerText}>{remainingTime}</Text>
+        )}
       </CountdownCircleTimer>
       <View
         ref={expressionAndButtonRef}
@@ -301,7 +303,7 @@ const styles = StyleSheet.create({
   timerText: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#ff0000',
+    color: '#fff',
     margin: 10,
   },
   counter: {
